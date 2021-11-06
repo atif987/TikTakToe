@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gluten:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Tik Tak Toe</title>
+</head>
+<body>
+   <div class="container-fluid text-center"style="background-color:black"><b><h1 style="color:white">Tik Tok Game</h1></b></div>
+   <div class="container" id="con" style="padding-top: 50px;padding-bottom: 50px;">
+          <div class="contain">
+            <p class="box commonclass" id="1">....</p>
+            <p class="box commonclass" id="2" >....</p>
+            <p class="box-r commonclass" id="3">....</p>
+          </div>
+          <div class="contain">
+            <p class="box commonclass" id="4" >....</p>
+            <p class="box commonclass" id="5" >....</p>
+            <p class="box-r commonclass"id="6" >....</p>
+          </div>
+          <div class="contain">
+            <p class="lastbox commonclass" id="7" >....</p>
+            <p class="lastbox commonclass" id="8" >....</p>
+            <p class="lastboxx commonclass" id="9">....</p>
+          </div>
+          <h1 id="winnerannoucement" class="text-center"></h1>
+    </div>
+    <div class="container  text-center">
+    <button type="button" class="btn btn-success btn-lg"  id="reset">Restart</button>
+    </div>
+    <div class="container" style="padding-top:30px;">
+        <h3><b>First Player has ✔ (sign)</b></h3><br>
+        <h3><b>Second Player has 🥚 (sign)</b></h3><br>
+    </div>
+
+   </div>
+   <script>
+
+    //
+    $(document).ready(function()
+     { 
+        var arr=[
+             [15,16,17],
+             [18,19,20],
+             [21,22,23],
+         ]
+
+            
+         $("#reset").click(function(){
+            location.reload("tiktaktok.html");
+         })
+         
+         function straightrow(){
+            if((arr[0][0]===arr[0][1] && arr[0][0]==arr[0][2]) || (arr[1][0]===arr[1][1] && arr[1][0]==arr[1][2]) || (arr[2][0]===arr[2][1] && arr[2][0]===arr[2][2])) {return true;} 
+         }
+
+         function straightcol(){
+            if((arr[0][0]===arr[1][0] && arr[0][0]==arr[2][0]) || (arr[0][1]===arr[1][1] && arr[0][1]==arr[2][1]) || (arr[0][2]===arr[1][2] && arr[0][2]===arr[2][2])) {return true;} 
+         }
+        
+         function checkdiagonal(){
+                if((arr[0][0] == arr[1][1] && arr[0][0]==arr[2][2]) || (arr[0][2] == arr[1][1] && arr[0][2]==arr[2][0]) ){  return true;}
+            }
+         
+         function checkwinner(){
+             if(straightrow() || checkdiagonal() || straightcol())
+             {
+                 return true;
+             }
+         }
+
+         function checkresult(res){
+            if(res){
+                $(".commonclass").off('click');
+            }
+         }
+
+
+         var click=1;
+        $(".commonclass").mouseenter(function(){
+        $(this).css("cursor","pointer");})
+         
+        var counts=0;
+        $(".commonclass").click(function(){
+           $(this).css("cursor","pointer");
+           let getid = this.id;
+           click++;
+           let val;
+           counts=counts+1;
+           if(click%2===0)
+           {
+               val=5;    // Represents Tick Section
+               let integerid=parseInt(getid);
+               if(integerid===1){
+                   arr[0][0]=val;
+               }else if(integerid===2){
+                   arr[0][1]=val;
+               }else if(integerid===3){
+                   arr[0][2]=val;
+               }else if(integerid===4){
+                   arr[1][0]=val;
+               }else if(integerid===5){
+                   arr[1][1]=val;
+               }else if(integerid===6){
+                   arr[1][2]=val;
+               }else if(integerid===7){
+                   arr[2][0]=val;
+               }else if(integerid===8){
+                   arr[2][1]=val;
+               }else if(integerid===9){
+                   arr[2][2]=val;
+               }
+               
+               $(this).html("<h1><b>✔</b></h1>");
+               if(checkwinner())
+                {
+                    $("#winnerannoucement").html("First Player Wins ! 😄");
+                    checkresult(true);
+                }
+                if(counts==9 && !checkwinner())
+                {
+                    $("#winnerannoucement").html("Match Draw ! 😏");
+                    checkresult(true);
+                    
+                }
+           }else{
+                val=10;   // Represents Owal Section
+                let integerid=parseInt(getid);
+               if(integerid===1){
+                   arr[0][0]=val;
+               }else if(integerid===2){
+                   arr[0][1]=val;
+               }else if(integerid===3){
+                   arr[0][2]=val;
+               }else if(integerid===4){
+                   arr[1][0]=val;
+               }else if(integerid===5){
+                   arr[1][1]=val;
+               }else if(integerid===6){
+                   arr[1][2]=val;
+               }else if(integerid===7){
+                   arr[2][0]=val;
+               }else if(integerid===8){
+                   arr[2][1]=val;
+               }else if(integerid===9){
+                   arr[2][2]=val;
+               }
+                
+                $(this).html("<h2><b>🥚</b></h2>");
+                if(checkwinner())
+                {
+                    $("#winnerannoucement").html("Second Player Wins ! 😄");
+                    checkresult(true);
+                    
+                    
+                }
+                if(counts==9 && !checkwinner())
+                {
+                    $("#winnerannoucement").html("Match Draw ! 😏");
+                    checkresult(true);
+                    
+                }
+           }
+           
+        })
+
+     })
+     </script>
+</body>
+</html>
+
+<style>
+    *{
+        margin:0px;
+        padding: 0px;
+        box-sizing: border-box;
+        font-family: 'Gluten', cursive;
+    }
+    .container-fluid{
+        padding: 0px;
+        margin: 0px;
+    }
+    #con{
+        margin-top:70px;
+       
+    }
+    .contain{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .box{
+        border-right:4px solid rgb(38, 39, 38);
+        border-bottom:4px solid rgb(38, 39, 38);
+        width:20%;
+        height: 50px;
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+    }
+    .box-r{
+        border-bottom:4px solid rgb(38, 39, 38);
+        width:20%;
+        height: 50px;
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+    }
+    .lastbox{
+        width:20%;
+        height: 50px;
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+        border-right:4px solid rgb(38, 39, 38);
+    }
+    .lastboxx{
+        width:20%;
+        height: 50px;
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+    }
+    .btn-success:focus {
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    }
+    
+</style>
